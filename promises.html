@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script>
+// Some good guides talking about async and promises
+// Understand promises before you start using async/await
+// https://medium.com/@bluepnume/learn-about-promises-before-you-start-using-async-await-eb148164a9c8
+// Async Functions
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+//Using promises
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises
+
+//EXAMPLE 1---------------------------------------------------
+//to make a function asynchronous you need to define async at the beginning of a function
+ async function dosomething(test){
+     var test2 = test + 10
+     return test2;
+ }
+
+ function domething2(result) {
+     console.log("this is the result of a basic then promise" + result);
+ }
+
+//the value of the var ok is the returned value from 'return test2', so ok is 20 and then we call the value ok to be assigned
+//to the function domesomething2 where it returns the console.log message plus the result.
+ let promise =dosomething(10).then(ok => domething2(ok));
+
+
+
+//EXAMPLE 2---------------------------------------------------
+async function promise2(ok){
+    ok += 10;
+    return ok;
+}
+
+//test4 is now assigned the value of 30 based on the function promise2
+let test4 = promise2(20);
+console.log(test4);
+
+
+test4.then(data =>{
+    //we are then saying we console.log the data that is stored in test4
+  console.log(data);//this will work
+  //cosolle.llog(data);   this will not work and will call the .catch
+}).catch(error =>{
+    //however is there is a mistake in the above code then this will be called displaying an error message
+    //saying something went wrong
+    console.log("woops");
+})
+
+
+
+//EXAMPLE 3---------------------------------------------------
+async function promise2(ok){
+    ok += 10;
+    return ok;
+}
+
+let test5 = promise2(20);
+console.log(test5);
+
+test5.then(data =>{
+  console.log("first call of .then " + data);
+  return data;
+  //so what we are specifically saying here is we ant to return this data made in .then and then pass it over to the next
+  //then where we will change the data again 
+  // normally we would not use parentheses {} as we have to use 'return' to return our data, with arrow functions => it will return
+  //automatically without the use of parentheses and semi-colons ;, check example 4
+})
+.then(data2 =>{
+  console.log("second call of .then " + data2);
+}).catch(error =>{
+    console.log("woops");
+})
+
+
+
+
+//EXAMPLE 4---------------------------------------------------
+async function promise3(ok){
+    ok += 10;
+    return ok;
+}
+
+let test6 = promise3(20);
+console.log(test6);
+
+test6.then(data =>
+ //this will work as we are changing the value of data then returning it 
+  data += 10
+  //something like this
+  //   console.log("first call of .then " + data); 
+  //wont work because we are using console.log which will bring an error unless we specifically use the layout
+  //in example 3
+
+).then(data3 =>
+  console.log("second call of .then of example 4 " + data3)
+).catch(error =>
+    console.log("woops")
+)
+
+
+
+//EXAMPLE 5---------------------------------------------------
+async function doSomething(){
+    return "hello";
+}
+
+async function doSomethingElse(newResult){
+    return newResult + "there";
+}
+
+async function doThirdThing(newResult2){
+    return newResult2 + "James";
+}
+
+
+function failureCallback(error) {
+  console.log("It failed with " + error);
+}
+
+
+doSomething()
+.then(result => doSomethingElse(result))
+.then(newResult => doThirdThing(newResult))
+.then(finalResult => {
+  console.log(`Got the final result: ${finalResult}`);
+  //console.log('Got the final result:' + finalResult);
+
+})
+.catch(failureCallback);
+
+</script>
+<body>
+    
+</body>
+</html>
